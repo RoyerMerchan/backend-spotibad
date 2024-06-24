@@ -1,12 +1,12 @@
 const express = require('express')
 const authRoutes = require('./routes/authroute');
-const saveOrUpdateToken = require('./controllers/tokencontroller')
+const MyToken = require('./controllers/tokencontroller')
 const mongoose = require('./db')
 
 
 
 const app = express();
-saveOrUpdateToken()
+MyToken()
 app.use(express.json())
 
 app.use('/ap/auth', authRoutes);

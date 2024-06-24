@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const tokenSchema = new mongoose.Schema({
   token: { type: String, required: true },
-  timeTouse: { type: Number, required: true },
+  timeTouse: { type: String, required: true },
 });
 
 const Token = mongoose.model("Token", tokenSchema);
