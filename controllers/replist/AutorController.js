@@ -9,7 +9,9 @@ const newS = new songmodel({title, artist, album, gender, long})
 const saveS = await newS.save()
 
 }catch(error){
-
+res.status(500).json({
+    msg:"error al subir cancion"
+})
 }
 
 }

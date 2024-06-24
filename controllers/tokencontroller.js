@@ -7,17 +7,20 @@ const MyToken = async () => {
 
       // Busca si ya existe un token en la base de datos
       const existingToken = await Token.findOne();
-console.log('ya bsuque el token', existingToken)
+console.log('token disponible', existingToken)
 if(existingToken){
+    const oldToken = existingToken.token
 if(Date.now()-existingToken.timeTouse > 350000){
-  const token = await getTokenAPi()
-  const timeTouse= Date.now()
-  const existingToken = await Token.findOneAndReplace({token, timeTouse})
-  
-  console.log(existingToken)
+    console.log(oldToken, "este token es a replazo")
+    const newToken = await getTokenAPi()
+  const filter = { token: oldToken}
+  const remplace = {token: newToken, timeTouse: Date.now()}
+  const options = {new: true}
+  const existingToken = await Token.findOneAndReplace(filter, remplace, options)
+
   console.log('Estamos aqui 2')
 
-  console.log("token nuevo", existingToken.token)
+  console.log("este es el token nuevo", existingToken.token)
   return existingToken.token
 }
 
