@@ -21,7 +21,7 @@ exports.songCheck = async (req,res) =>{
                         Authorizatiom: `Bearer ${tokenS}`,
                     }
                 });
-                const spotifyD = searchS.data.tracks.item[0]
+                const spotifyD = searchS.data.tracks.items[0]
 
                 const Nsong = new Song({
                     artist: spotifyD.artists[0].name,
@@ -33,35 +33,24 @@ exports.songCheck = async (req,res) =>{
                 })
                 await Nsong.save()
                 res.json(spotifyD)
-        }
 
+                const artistas = spotifyD.artist.map((artista)=>artista.name)
+
+                artistas.forEach(async (nombreArtista) => {
+                    const artistMdb = await Artist.findOne({nombreArtista})
+                        if(!artistMdb){
+                    
+                    const nArt = new Artist({
+                        name: nombreArtista,
+                        joinDate: Date.now()
+                    })
+                    await nArt.save()
+                    res.json(nArt)
+        }});
+        }
     }catch(error){
 res.status(500).json({
-    msg:"error al buscar cancion"
+    msg:"error al buscar cancion o anadir artista"
 })
     }
-}
-
-exports.GetArtist = async (req,res) =>{ 
-    try{
-        const searchS = await axios.get('https://api.spotify.com/v1/artist',
-            {
-                params: {
-                    q: nombreCancion,
-                    type: 'track',
-                },
-                headers:{
-                    Authorizatiom: `Bearer ${tokenS}`,
-                }
-            });
-
-
-    }catch(error){
-
-
-    }
-
-
-
-
 }
