@@ -10,3 +10,4 @@ router.post('upload', upload.fields([
 {name: 'image', maxCount: 1}
 ]),NewSong)
 
+module.exports = router
