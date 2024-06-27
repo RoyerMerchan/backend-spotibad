@@ -45,7 +45,8 @@ exports.songCheck = async (req,res) =>{
                     
                     const nArt = new Artist({
                         name: nombreArtista,
-                        joinDate: Date.now()
+                        joinDate: Date.now(),
+                        image: artistas.images
                     })
                     await nArt.save()
                     res.json(nArt)
