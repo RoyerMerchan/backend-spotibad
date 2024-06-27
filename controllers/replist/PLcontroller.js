@@ -1,5 +1,5 @@
 const Playlist = require('../../models/playlistmodel')
-const Song = require('../models/songmodel')
+const Song = require('../../models/songmodel')
 //creacion
 exports.createPl = async (req,res) =>{
 try {

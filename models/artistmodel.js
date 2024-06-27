@@ -6,6 +6,6 @@ joinDate:{type: Date, require: true},
 image:{type: String, require: true}
 })
 
-const Artist = mongose.model('Artist', artistSchema)
+const Artist = mongoose.model('Artist', artistSchema)
 
 module.exports = Artist

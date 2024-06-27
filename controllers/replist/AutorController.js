@@ -1,5 +1,5 @@
 const songmodel = require('../../models/songmodel')
-const Artist = require('../models/artistmodel')
+const Artist = require('../../models/artistmodel')
 const multer = require('../replist/multercontroller')
 const admin = require('../../firebasec')
 
