@@ -1,11 +1,11 @@
 const Playlist = require('../../models/playlistmodel')
 const Song = require('../models/songmodel')
-
+//creacion
 exports.createPl = async (req,res) =>{
 try {
     const nPlay = new Playlist({...req.body, userId: req.user._id})
     await nPlay.save()
-    const ppPlay = await group.findById(nPlay._id).populate({
+    const pPlay = await group.findById(nPlay._id).populate({
         path: 'Songs',
         model: 'songmodel',
         select: 'title artist Album gender long SpotifyCode'
@@ -23,6 +23,7 @@ msg:'not found'
     console.error(error)   
 }
 }
+//borrado de playlist
 
 exports.playDel = async (req,res) =>{
     try {
@@ -42,33 +43,33 @@ exports.playDel = async (req,res) =>{
       console.error(error)  
     }
     }
-
-    // exports.playEdit = async (req,res) =>{
-    //     try {
-    //         const {id} = req.params
-    //         const edit = await Playlist.findOneAndUpdate({
-    //             _id: id,
-    //             userId: req.user._id},
-    //             req.body,
-    //             {new: true 
-    //             }).populate({
-    //                 path: 'Songs',
-    //                 model:'contactmodel',
-    //                 select: 'name lastname'
-    //             })
+//edicion
+    exports.playEdit = async (req,res) =>{
+        try {
+            const {id} = req.params
+            const edit = await Playlist.findOneAndUpdate({
+                _id: id,
+                userId: req.user._id},
+                req.body,
+                {new: true 
+                }).populate({
+                    path: 'Songs',
+                    model:'contactmodel',
+                    select: 'name'
+                })
         
-    //             if(!edit) {
-    //     return res.status(404).json({
-    //         msg:'not found'
-    //     })
-    //     res.json(edit)
-    //             }
-    //     } catch (error) {
-    //         console.error(error)   
-    //     }
-    //     }
-    
-    exports.groupRC = async (req,res) =>{
+                if(!edit) {
+        return res.status(404).json({
+            msg:'not found'
+        })
+    }
+    res.json(edit)
+        } catch (error) {
+            console.error(error)   
+        }
+        }
+    //borrado de cancion
+    exports.songRemove = async (req,res) =>{
         try {
             const {playlistId, songId} = req.params
             const playL = await Playlist.findById(playlistId)
@@ -101,3 +102,23 @@ exports.playDel = async (req,res) =>{
             res.json({error: error})
         }
         }   
+//listado
+        exports.listPl = async (req,res) =>{
+            try{
+               const play = await Playlist.find({}).populate({
+                    path: "songs",
+                    model: "Song",
+                    select: "title artist spotifyCode"
+                }).populate('userId').exec()
+                res.json(play)
+
+            }catch(error){
+
+                res.status(500).json({
+                    msg: "error al listar las playlist"
+                })
+            }
+
+
+
+        }

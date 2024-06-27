@@ -7,6 +7,7 @@ Album: {type: String,  require: true},
 gender: {type: String, require: true},
 long: {type: Number,  require: true},
 spotifyCode: {type: String, require: true},
+image: {type: String, require: true}
 })
 
 const Song  = mongoose.model('Song', songSchema)
