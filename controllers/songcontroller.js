@@ -35,7 +35,7 @@ exports.songCheck = async (req,res) =>{
                     image: spotifyD.images
                 })
                 await Nsong.save()
-                res.json(spotifyD)
+                res.json(Nsong)
 
                 const artistas = spotifyD.artists.map((artista)=>artista.name)
 
