@@ -12,7 +12,7 @@ exports.NewSong = async (req,res) =>{
 try{
 const user = req.params.userId
 const autor = await User.findById(user)
-if(user.autor == true){
+if(autor.autor == true){
     const bucket = admin.storage().bucket();
 
 
