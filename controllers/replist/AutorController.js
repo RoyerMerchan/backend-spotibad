@@ -1,5 +1,6 @@
 const songmodel = require('../../models/songmodel')
 const Artist = require('../../models/artistmodel')
+const User = require('../../models/authmodel')
 const multer = require('../replist/multercontroller')
 const admin = require('../../firebasec')
 
@@ -9,7 +10,9 @@ const admin = require('../../firebasec')
 exports.NewSong = async (req,res) =>{
 
 try{
-
+const user = req.params.userId
+const autor = await User.findById(user)
+if(user.autor == true){
     const bucket = admin.storage().bucket();
 
 
@@ -40,6 +43,10 @@ if(!artistB){
     })
     const saveA = await nArt.save()
     res.json({msg: "new artist", saveA})
+}}else{
+    res.json({
+        msg: 'cant submit a song'
+    })
 }
 
 

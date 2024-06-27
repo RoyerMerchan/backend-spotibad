@@ -5,10 +5,10 @@ const User = require("../models/authmodel");
 // Registro de usuario
 exports.signup = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, autor } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ username, email, password: hashedPassword });
+    const newUser = new User({ username, email, password: hashedPassword, autor});
     await newUser.save();
 
     res.status(201).json({ message: "Usuario registrado correctamente" });

@@ -53,7 +53,7 @@ exports.songCheck = async (req,res) =>{
         }})
                 }}catch(error){
 res.status(500).json({
-    msg:"error al buscar cancion o anadir artista"
+    msg:"error al buscar cancion o anadir artistaa"
 })
     }}
 
