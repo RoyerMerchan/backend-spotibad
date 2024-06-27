@@ -7,7 +7,7 @@ const plrouter = require('./routes/playlistroute')
 const songrouter = require('./routes/songroute')
 
 const app = express();
-MyToken()
+// MyToken()
 app.use(express.json())
 
 app.use('/ap/auth', authRoutes);
