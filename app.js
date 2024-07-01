@@ -5,7 +5,7 @@ const mongoose = require('./db')
 const autorrouter = require('./routes/autorroute')
 const plrouter = require('./routes/playlistroute')
 const songrouter = require('./routes/songroute')
-
+//app
 const app = express();
 // MyToken()
 app.use(express.json())
