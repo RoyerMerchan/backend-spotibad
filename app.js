@@ -5,6 +5,7 @@ const mongoose = require('./db')
 const autorrouter = require('./routes/autorroute')
 const plrouter = require('./routes/playlistroute')
 const songrouter = require('./routes/songroute')
+const {swaggerDocs} = require('./swaggercontroller')
 //app
 const app = express();
 // MyToken()
@@ -18,7 +19,7 @@ app.use('/ap/song', songrouter);
 
 app.listen(3000, ()=>{
     console.log('servidor iniciado')
-    
+    swaggerDocs(app, 3000)
     })
     
     module.exports = app;
