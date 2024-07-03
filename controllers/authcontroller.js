@@ -28,7 +28,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: "Usuario no encontrado" });
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(401).json({ error: "Contraseña incorrecta" });
     }
@@ -36,8 +36,8 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, "royerSecret", {
       expiresIn: "1h",
     });
-    res.json(token)
-    res.status(200).json({ token });
+    res.status(200).json({msg: "este es el token a usar", token});
+    // res.json(token)
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: "Error al iniciar sesión" });
