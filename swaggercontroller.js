@@ -6,7 +6,7 @@ const options ={
         openapi: "3.0.0",
         info: {title: "SpotyBAD Api", version : "1.0.0", description: "backend de spotify"}   
     },
-    apis: ['./routes/authroute.js','./routes/autorroute.js','./routes/playlistroute.js','./routes/songroute.js']
+    apis: ['./routes/songroute.js','./routes/authroute.js','./routes/autorroute.js','./routes/playlistroute.js']
 }
 
 const specs = swaggerJSDoc(options)

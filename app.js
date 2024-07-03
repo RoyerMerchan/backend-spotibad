@@ -6,9 +6,11 @@ const autorrouter = require('./routes/autorroute')
 const plrouter = require('./routes/playlistroute')
 const songrouter = require('./routes/songroute')
 const {swaggerDocs} = require('./swaggercontroller')
+const cors = require('cors')
 //app
 const app = express();
 // MyToken()
+app.use(cors())
 app.use(express.json())
 
 app.use('/ap/auth', authRoutes);
