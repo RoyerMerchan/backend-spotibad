@@ -12,6 +12,7 @@ const app = express();
 // MyToken()
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/ap/auth', authRoutes);
 app.use('/ap/autor', autorrouter);
