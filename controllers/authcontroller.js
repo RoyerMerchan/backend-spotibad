@@ -7,12 +7,13 @@ exports.signup = async (req, res) => {
   try {
     const { username, email, password, autor } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    console.log('password enviada:' ,password)
     const newUser = new User({ username, email, password: hashedPassword, autor});
     await newUser.save();
-
-    res.status(201).json({ message: "Usuario registrado correctamente" });
+        
+      res.status(201).json({ message: "Usuario registrado correctamente" });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: "Error al registrar el usuario" });
   }
 };
@@ -35,8 +36,10 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, "royerSecret", {
       expiresIn: "1h",
     });
+    res.json(token)
     res.status(200).json({ token });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: "Error al iniciar sesión" });
   }
 };
