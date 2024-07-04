@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 const songSchema = new mongoose.Schema({
 title: {type: String,  require: true},
-artist: [{type: mongoose.Schema.Types.ObjectId, ref: 'Artist',  require: true,}],
+artistid: [{type: mongoose.Schema.Types.ObjectId, ref: 'Artist',  require: true,}],
+artistname:[{type: String}],
 Album: {type: String,  require: true},
 gender: {type: String, require: true},
 long: {type: Number,  require: true},

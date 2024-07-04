@@ -2,11 +2,11 @@ const Song = require('../models/songmodel')
 const Artist = require('../models/artistmodel')
 const MyToken = require('../controllers/tokencontroller')
 const axios = require('axios')
-tokenS = MyToken()
 
 exports.songCheck = async (req,res) =>{
+    tokenS = await MyToken()
     const NameSong = req.query.name
-    const NameArtist = req.query.artist
+    // const NameArtist = req.query.artist
     try{
         const SonginMDB = await Song.findOne({title: NameSong})
 
@@ -16,42 +16,52 @@ exports.songCheck = async (req,res) =>{
             const searchS = await axios.get('https://api.spotify.com/v1/search',
                 {
                     params: {
-                        q: nombreCancion,
+                        q: NameSong,
                         type: 'track',
                     },
                     headers:{
-                        Authorizatiom: `Bearer ${tokenS}`,
+                        Authorization: `Bearer ${tokenS}`,
                     }
                 });
                 const spotifyD = searchS.data.tracks.items[0]
-
-                const Nsong = new Song({
-                    artist: spotifyD.artists[0].name,
-                    title: spotifyD.name,
-                    Album: spotifyD.album.name,
-                    gender: spotifyD.genres,
-                    long: spotifyD.duration_ms,
-                    spotifyCode: spotifyD.external_urls.spotify,
-                    image: spotifyD.images
-                })
-                await Nsong.save()
-                res.json(Nsong)
-
+    
                 const artistas = spotifyD.artists.map((artista)=>artista.name)
-
-                artistas.forEach(async (nombreArtista) => {
-                    const artistMdb = await Artist.findOne({nombreArtista})
-                        if(!artistMdb){
-                    
-                    const nArt = new Artist({
-                        name: nombreArtista,
-                        joinDate: Date.now(),
-                        image: artistas.images
+                
+                console.log(spotifyD.artists)
+                const artistPromise = artistas.map(async (nombreArtista) => {
+                    let artistMdb = await Artist.findOne({nombreArtista})
+                    if(!artistMdb){
+                        
+                        const nArt = new Artist({
+                            name: nombreArtista,
+                            joinDate: Date.now(),
+                            image: artistas.images
+                        })
+                        artistMdb = await nArt.save()
+                        
+                        // res.json(nArt)
+                    }
+                    return artistMdb
                     })
-                    await nArt.save()
-                    res.json(nArt)
-        }})
+                    
+                    const artistsInMDB = await Promise.all(artistPromise);
+                        
+                        const Nsong = new Song({
+                            artistid: artistsInMDB.map((a) => a._id),
+                            artistname: artistsInMDB.map((e) => e.name),
+                            title: spotifyD.name,
+                            Album: spotifyD.album.name,
+                            gender: spotifyD.genres,
+                            long: spotifyD.duration_ms,
+                            spotifyCode: spotifyD.preview_url,
+                            image: spotifyD.images
+                        })
+                    
+                    await Nsong.save()
+                    res.json(Nsong)
                 }}catch(error){
+                    console.log(error)
+                    // console.log(tokenS)
 res.status(500).json({
     msg:"error al buscar cancion o anadir artistaa"
 })
@@ -60,6 +70,7 @@ res.status(500).json({
 
 exports.searchByart = async (req,res) =>{
     const NameArtist = req.query.artist
+    tokenS = await MyToken()
     try{
         const artistInDB = await Artist.findOne({name: NameArtist})
         if(artistInDB){
@@ -68,11 +79,11 @@ exports.searchByart = async (req,res) =>{
             const searchArt = await axios.get('https://api.spotify.com/v1/search',
                 {
                     params: {
-                        q: nombreArtista,
+                        q: NameArtist,
                         type: 'Artist',
                     },
                     headers:{
-                        Authorizatiom: `Bearer ${tokenS}`,
+                        Authorization: `Bearer ${tokenS}`,
                     }
                 });
 
