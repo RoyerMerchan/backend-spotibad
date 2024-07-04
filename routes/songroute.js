@@ -5,7 +5,7 @@ const tokenM = require("../middlewares/tokenM");
 const { swaggerDocs } = require('../swaggercontroller');
 
 
-router.post("/searchSong", songcontroller.songCheck);
+router.get("/searchSong", songcontroller.songCheck);
 
 
 
