@@ -13,7 +13,7 @@ router.put('/editplaylist/:id', tokenM, playlistC.playEdit)
 
 router.delete('/playlist/:idplylist/song/:idsong', tokenM, playlistC.songRemove)
 
-
+router.get('/playlistsGet/:id', tokenM, playlistC.getPlById)
    
 router.get('/playlists', tokenM, playlistC.listPl)
 

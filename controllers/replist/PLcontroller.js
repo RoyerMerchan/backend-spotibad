@@ -3,7 +3,8 @@ const Song = require('../../models/songmodel')
 //creacion
 exports.createPl = async (req,res) =>{
 try {
-    const nPlay = new Playlist({...req.body, userId: req.user._id})
+    const defaultImage = "https://promocionmusical.es/wp-content/uploads/2018/08/album-musical.jpg"
+    const nPlay = new Playlist({...req.body, userId: req.user._id, image: req.body.image || defaultImage,})
     await nPlay.save()
     const pPlay = await group.findById(nPlay._id).populate({
         path: 'Songs',
@@ -122,3 +123,24 @@ exports.playDel = async (req,res) =>{
 
 
         }
+
+        // Endpoint para obtener una playlist por id
+exports.getPlById = async (req, res) => {
+    try {
+      // Busca la playlist por id
+      const playlist = await Playlist.findById(req.params.id)
+        .populate('songs') // Incluye las canciones asociadas
+        .populate('user'); // Incluye el usuario 
+  
+      // Si no se encuentra la playlist
+      if (!playlist) {
+        return res.status(404).json({ message: 'Playlist no encontrada' });
+      }
+  
+      // Retorna la playlist con las canciones asociadas
+      res.json(playlist);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al obtener la playlist' });
+    }
+  };
