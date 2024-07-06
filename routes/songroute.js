@@ -9,6 +9,6 @@ router.get("/searchSong", songcontroller.songCheck);
 
 
 
-router.post("/searchartist", tokenM, songcontroller.searchByart);
+router.post("/searchartist",  songcontroller.searchByart);
 
 module.exports = router;
